@@ -17,7 +17,7 @@
 ## Infrastructure
 - **Tenant:** See `.env` file (not committed)
 - **Slack:** #zerolegacy (C0B8EHD8LU8)
-- **GitHub Repo:** TBD
+- **GitHub Repo:** https://github.com/krishnagutta/devcon-2026-hackathon
 
 ## Judging Criteria (25% each)
 1. **Use of Platform** — How effectively we leverage Workday capabilities
