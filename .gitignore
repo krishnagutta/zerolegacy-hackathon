@@ -1,0 +1,53 @@
+# Secrets and credentials
+.env
+.env.local
+credentials.json
+*.pem
+*.key
+*_key
+*_key.pub
+secrets/
+
+# Workday
+*.wsdl.cache
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+.npm
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Build artifacts
+*.zip
+*.tar.gz
