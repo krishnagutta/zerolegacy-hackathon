@@ -119,35 +119,61 @@ Early-access availability runs through Workday Extend Professional, so confirm w
 
 **Feature freeze is non-negotiable.** After hour ~18 we polish and rehearse — we do not start new features. Most hackathon losses happen in the last 6 hours building something that's never demoed.
 
-## 9. THE IDEA ⟵ fill this in, then we execute
+## 9. THE IDEA ⟵ Studio→Orchestrate Migration Agent (LOCKED)
 
 ```
 PROBLEM (one sentence, the pain a judge instantly recognizes):
-  …
+  Thousands of companies have legacy Workday Studio integrations that require 40+ hours of manual work per integration to migrate to modern Orchestrate—a critical blocker for platform modernization.
 
 WHO HAS THIS PAIN:
-  …
+  Every Workday customer with Studio integrations (thousands of companies), integration developers, Workday consultants, IT teams managing legacy integration debt.
 
 WHAT WE'RE BUILDING (the agent/app, one sentence):
-  …
+  A fully automated coding agent that reads Studio integration XML, analyzes the assembly structure, and generates production-ready Orchestrate flows in 90 seconds—deployed via WDCLI with zero manual intervention.
 
 THE DEMO WE WILL SHOW (the exact happy path, start to finish):
-  …
+  1. Open web UI, upload demo Studio integration XML (3-5 steps: retrieve → transform → load)
+  2. Click "Migrate" → agent pipeline runs (console output streams live)
+  3. Parser extracts assembly structure → Mapper converts Studio steps to Orchestrate nodes → Generator creates WDCLI-compatible JSON
+  4. Deployer runs `wdc orchestrate create` → deployed to hackathon tenant in 90 seconds
+  5. Before/after comparison shows: Studio (5 steps, 2 XSLs, 200 lines XML) → Orchestrate (3 nodes, clean modern flow)
+  6. Download generated Orchestrate JSON + show deployed orchestration live in tenant
 
 THE "WOW" MOMENT:
-  …
+  The agent completes in 90 seconds what takes consultants 40+ hours manually. Live console output shows each step (parse → map → generate → deploy), then the deployed Orchestrate flow appears in the tenant. Judges see: "This is instant ROI for every Studio customer."
 
 WORKDAY STACK WE'RE USING (Agent-Ready Tools/MCP, our MCP server, Extend, Data Cloud, ASOR…):
-  …
+  - WDCLI (Workday CLI) for programmatic Orchestrate creation and deployment
+  - Orchestrate agent actions (THE hot new feature—our output is agent-ready flows)
+  - Studio Builder (from hackathon repo) to create demo Studio integration
+  - Developer Agent pattern (fully automated, no manual UI work)
+  - Node.js agent pipeline (parser → mapper → generator → deployer)
+  - Express.js web UI for demo interface
 
 TRUST/GOVERNANCE WE'LL SHOW ON SCREEN:
-  …
+  - Full audit trail: console logs every step (parse → map → generate → deploy)
+  - Validation at each stage: parser validates XML, generator validates against Orchestrate schema
+  - Error handling: agent gracefully handles invalid XML, unsupported steps with clear messages
+  - Reproducible: same Studio XML always generates same Orchestrate flow (deterministic mapping)
+  - Transparent: show generated Orchestrate JSON before deployment, user can review/download
 
 SUCCESS CRITERIA (what "done enough to win" looks like in 24h):
-  …
+  - Demo Studio integration built in Studio Builder (3-5 steps)
+  - Agent pipeline working end-to-end: upload XML → deployed Orchestrate in <2 minutes
+  - Before/after visual comparison showing complexity reduction
+  - Live demo running smoothly (with backup video if needed)
+  - Pitch deck complete with 5-minute script rehearsed
+  - Deployed Orchestrate visible in hackathon tenant
+  - All code on GitHub with runnable README
 
 OUT OF SCOPE (explicitly not doing this in 24h):
-  …
+  - Complex Studio patterns (stick to retrieve → transform → load)
+  - XSL transformation logic conversion (map XSL concept to Orchestrate transform, don't translate XPath)
+  - Multi-tenant support (hackathon tenant only)
+  - Studio integration testing/validation (assume valid XML input)
+  - Orchestrate flow optimization (generate working flow, not optimal flow)
+  - UI polish beyond functional demo (focus on agent, not pretty UI)
+  - Error recovery workflows (happy path only for demo)
 ```
 
 ---
