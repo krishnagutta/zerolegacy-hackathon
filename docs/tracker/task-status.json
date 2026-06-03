@@ -1,0 +1,140 @@
+{
+  "lastUpdate": "2026-06-03T22:52:00.000Z",
+  "tasks": {
+    "0.1": {
+      "status": "claimed",
+      "owner": "Krishna",
+      "replyCount": 1
+    },
+    "0.2": {
+      "status": "claimed",
+      "owner": "Krishna",
+      "replyCount": 2
+    },
+    "0.3": {
+      "status": "claimed",
+      "owner": "Austin + ac",
+      "replyCount": 1
+    },
+    "0.4": {
+      "status": "claimed",
+      "owner": "Austin + Andrew",
+      "replyCount": 1
+    },
+    "1.1": {
+      "status": "unclaimed",
+      "owner": null,
+      "replyCount": 0
+    },
+    "1.2": {
+      "status": "unclaimed",
+      "owner": null,
+      "replyCount": 0
+    },
+    "2.1": {
+      "status": "unclaimed",
+      "owner": null,
+      "replyCount": 0
+    },
+    "2.2": {
+      "status": "unclaimed",
+      "owner": null,
+      "replyCount": 0
+    },
+    "2.3": {
+      "status": "unclaimed",
+      "owner": null,
+      "replyCount": 0
+    },
+    "2.4": {
+      "status": "unclaimed",
+      "owner": null,
+      "replyCount": 0
+    },
+    "3.1": {
+      "status": "unclaimed",
+      "owner": null,
+      "replyCount": 0
+    },
+    "3.2": {
+      "status": "unclaimed",
+      "owner": null,
+      "replyCount": 0
+    },
+    "4.1": {
+      "status": "unclaimed",
+      "owner": null,
+      "replyCount": 0
+    },
+    "4.2": {
+      "status": "unclaimed",
+      "owner": null,
+      "replyCount": 0
+    },
+    "4.3": {
+      "status": "unclaimed",
+      "owner": null,
+      "replyCount": 0
+    },
+    "5.1": {
+      "status": "unclaimed",
+      "owner": null,
+      "replyCount": 0
+    },
+    "5.2": {
+      "status": "claimed",
+      "owner": "ac + Wendy",
+      "replyCount": 1
+    },
+    "5.3": {
+      "status": "unclaimed",
+      "owner": null,
+      "replyCount": 0
+    },
+    "5.4": {
+      "status": "unclaimed",
+      "owner": null,
+      "replyCount": 0
+    },
+    "5.5": {
+      "status": "unclaimed",
+      "owner": null,
+      "replyCount": 0
+    },
+    "5.6": {
+      "status": "unclaimed",
+      "owner": null,
+      "replyCount": 0
+    },
+    "5.7": {
+      "status": "unclaimed",
+      "owner": null,
+      "replyCount": 0
+    },
+    "5.8": {
+      "status": "unclaimed",
+      "owner": null,
+      "replyCount": 0
+    },
+    "Q.1": {
+      "status": "completed",
+      "owner": "Krishna/Claude",
+      "replyCount": 0
+    },
+    "Q.2": {
+      "status": "unclaimed",
+      "owner": null,
+      "replyCount": 0
+    },
+    "Q.3": {
+      "status": "unclaimed",
+      "owner": null,
+      "replyCount": 0
+    },
+    "Q.4": {
+      "status": "unclaimed",
+      "owner": null,
+      "replyCount": 0
+    }
+  }
+}
