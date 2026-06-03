@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeroLegacy Hackathon Task Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .header-meta {
+            text-align: right;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            font-size: 14px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #212529;
+        }
+
+        .stat-card.unclaimed .value { color: #dc3545; }
+        .stat-card.claimed .value { color: #ffc107; }
+        .stat-card.completed .value { color: #28a745; }
+
+        .controls {
+            padding: 20px 30px;
+            background: #fff;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .phase-filter {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .phase-filter button {
+            padding: 8px 16px;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .phase-filter button.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .tasks-container {
+            padding: 30px;
+        }
+
+        .phase-section {
+            margin-bottom: 40px;
+        }
+
+        .phase-header {
+            font-size: 20px;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .task-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.2s;
+        }
+
+        .task-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .task-card.unclaimed {
+            border-left: 4px solid #dc3545;
+        }
+
+        .task-card.claimed {
+            border-left: 4px solid #ffc107;
+        }
+
+        .task-card.completed {
+            border-left: 4px solid #28a745;
+            opacity: 0.7;
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+
+        .task-id {
+            font-size: 12px;
+            font-weight: 700;
+            color: #667eea;
+            background: #f0f3ff;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .task-status {
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+
+        .task-status.unclaimed {
+            background: #fff5f5;
+            color: #dc3545;
+        }
+
+        .task-status.claimed {
+            background: #fffbf0;
+            color: #ffc107;
+        }
+
+        .task-status.completed {
+            background: #f0fff4;
+            color: #28a745;
+        }
+
+        .task-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 8px;
+        }
+
+        .task-goal {
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .task-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: #6c757d;
+        }
+
+        .task-owner {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            font-size: 18px;
+            color: #6c757d;
+        }
+
+        .error {
+            background: #fff5f5;
+            border: 2px solid #dc3545;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px;
+            color: #dc3545;
+        }
+
+        .slack-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .slack-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>🏆 Studio→Orchestrate Migration Agent</h1>
+                <div style="margin-top: 8px; opacity: 0.9;">Team ZeroLegacy - DevCon 2026 Hackathon</div>
+            </div>
+            <div class="header-meta">
+                <div id="lastUpdate">Loading...</div>
+                <div style="margin-top: 4px; font-size: 12px;">Auto-refresh every 30s</div>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card unclaimed">
+                <h3>Unclaimed</h3>
+                <div class="value" id="stat-unclaimed">-</div>
+            </div>
+            <div class="stat-card claimed">
+                <h3>In Progress</h3>
+                <div class="value" id="stat-claimed">-</div>
+            </div>
+            <div class="stat-card completed">
+                <h3>Completed</h3>
+                <div class="value" id="stat-completed">-</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Tasks</h3>
+                <div class="value" id="stat-total">25</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-primary" onclick="loadTasks()">🔄 Refresh</button>
+            <div class="phase-filter">
+                <button class="active" onclick="filterPhase('all')">All</button>
+                <button onclick="filterPhase('phase0')">Phase 0</button>
+                <button onclick="filterPhase('phase1')">Phase 1</button>
+                <button onclick="filterPhase('phase2')">Phase 2</button>
+                <button onclick="filterPhase('phase3')">Phase 3</button>
+                <button onclick="filterPhase('phase4')">Phase 4</button>
+                <button onclick="filterPhase('phase5')">Phase 5</button>
+                <button onclick="filterPhase('quick')">Quick Wins</button>
+            </div>
+        </div>
+
+        <div class="tasks-container" id="tasks-container">
+            <div class="loading">Loading tasks from Slack...</div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const SLACK_CHANNEL_ID = 'C0B8EHD8LU8';
+        const SLACK_TOKEN = 'PLACEHOLDER'; // Will be injected via env or config
+
+        // Task definitions with message timestamps
+        const TASKS = [
+            { id: '0.1', phase: 'Phase 0', title: 'Orchestrate Flow Schema Research', ts: '1780525557.153739' },
+            { id: '0.2', phase: 'Phase 0', title: 'WDCLI Setup & Orchestrate Commands', ts: '1780525563.810099' },
+            { id: '0.3', phase: 'Phase 0', title: 'Studio Builder Setup', ts: '1780525570.132469' },
+            { id: '0.4', phase: 'Phase 0', title: 'Design Demo Studio Integration', ts: '1780525576.377379' },
+            { id: '1.1', phase: 'Phase 1', title: 'Create Demo Studio Integration', ts: '1780525585.160979' },
+            { id: '1.2', phase: 'Phase 1', title: 'Validate Studio XML', ts: '1780525590.121389' },
+            { id: '2.1', phase: 'Phase 2', title: 'Studio XML Parser Agent', ts: '1780525600.281589' },
+            { id: '2.2', phase: 'Phase 2', title: 'Mapping Rules Engine', ts: '1780525606.470549' },
+            { id: '2.3', phase: 'Phase 2', title: 'Orchestrate Generator Agent', ts: '1780525611.567489' },
+            { id: '2.4', phase: 'Phase 2', title: 'WDCLI Deployment Agent', ts: '1780525617.316219' },
+            { id: '3.1', phase: 'Phase 3', title: 'Main Orchestration Script', ts: '1780525629.428299' },
+            { id: '3.2', phase: 'Phase 3', title: 'Before/After Report Generator', ts: '1780525636.712809' },
+            { id: '4.1', phase: 'Phase 4', title: 'Simple Web UI for Agent', ts: '1780525647.388989' },
+            { id: '4.2', phase: 'Phase 4', title: 'Visualization Component', ts: '1780525652.791099' },
+            { id: '4.3', phase: 'Phase 4', title: 'Download/Export Feature', ts: '1780525657.379599' },
+            { id: '5.1', phase: 'Phase 5', title: 'End-to-End Test', ts: '1780525668.563869' },
+            { id: '5.2', phase: 'Phase 5', title: 'Pitch Deck Creation', ts: '1780525675.195859' },
+            { id: '5.3', phase: 'Phase 5', title: 'Demo Script & Talking Points', ts: '1780525681.644679' },
+            { id: '5.4', phase: 'Phase 5', title: 'Demo Rehearsal', ts: '1780525687.222739' },
+            { id: '5.5', phase: 'Phase 5', title: 'Screen Recordings for Backup', ts: '1780525693.012379' },
+            { id: '5.6', phase: 'Phase 5', title: 'Post-Event Video Submission', ts: '1780525699.279529' },
+            { id: '5.7', phase: 'Phase 5', title: 'Project Submission Package', ts: '1780525705.483709' },
+            { id: '5.8', phase: 'Phase 5', title: 'Error Handling & Polish', ts: '1780525710.498859' },
+            { id: 'Q.1', phase: 'Quick Wins', title: 'Update CLAUDE.md Section 9', ts: '1780525719.502279', status: 'completed', owner: 'Krishna/Claude' },
+            { id: 'Q.2', phase: 'Quick Wins', title: 'Create Repo Structure', ts: '1780525725.026679' },
+            { id: 'Q.3', phase: 'Quick Wins', title: 'Update README', ts: '1780525729.519669' },
+            { id: 'Q.4', phase: 'Quick Wins', title: 'Set Up Dev Environment', ts: '1780525735.295219' }
+        ];
+
+        let currentTasks = [];
+        let currentFilter = 'all';
+
+        // Load tasks and status from Slack
+        async function loadTasks() {
+            document.getElementById('tasks-container').innerHTML = '<div class="loading">Loading tasks from Slack...</div>';
+            document.getElementById('lastUpdate').textContent = 'Updating...';
+
+            try {
+                // In production, this would fetch from Slack API
+                // For now, simulate with task definitions
+                currentTasks = TASKS.map(task => ({
+                    ...task,
+                    status: task.status || 'unclaimed',
+                    owner: task.owner || null,
+                    slackUrl: `https://devconhackathon.slack.com/archives/${SLACK_CHANNEL_ID}/p${task.ts.replace('.', '')}`
+                }));
+
+                updateStats();
+                renderTasks();
+
+                const now = new Date();
+                document.getElementById('lastUpdate').textContent = now.toLocaleTimeString();
+            } catch (error) {
+                document.getElementById('tasks-container').innerHTML = `
+                    <div class="error">
+                        <strong>Error loading tasks:</strong> ${error.message}<br>
+                        <small>Make sure Slack token is configured</small>
+                    </div>
+                `;
+            }
+        }
+
+        function updateStats() {
+            const stats = currentTasks.reduce((acc, task) => {
+                acc[task.status] = (acc[task.status] || 0) + 1;
+                return acc;
+            }, {});
+
+            document.getElementById('stat-unclaimed').textContent = stats.unclaimed || 0;
+            document.getElementById('stat-claimed').textContent = stats.claimed || 0;
+            document.getElementById('stat-completed').textContent = stats.completed || 0;
+            document.getElementById('stat-total').textContent = currentTasks.length;
+        }
+
+        function renderTasks() {
+            const container = document.getElementById('tasks-container');
+            const filteredTasks = currentFilter === 'all'
+                ? currentTasks
+                : currentTasks.filter(t => getPhaseKey(t.phase) === currentFilter);
+
+            const groupedTasks = filteredTasks.reduce((acc, task) => {
+                if (!acc[task.phase]) acc[task.phase] = [];
+                acc[task.phase].push(task);
+                return acc;
+            }, {});
+
+            container.innerHTML = '';
+
+            Object.keys(groupedTasks).sort().forEach(phase => {
+                const section = document.createElement('div');
+                section.className = 'phase-section';
+                section.innerHTML = `
+                    <div class="phase-header">${phase}</div>
+                    ${groupedTasks[phase].map(task => `
+                        <div class="task-card ${task.status}">
+                            <div class="task-header">
+                                <span class="task-id">Task ${task.id}</span>
+                                <span class="task-status ${task.status}">${task.status}</span>
+                            </div>
+                            <div class="task-title">${task.title}</div>
+                            <div class="task-meta">
+                                ${task.owner ? `<div>👤 <span class="task-owner">${task.owner}</span></div>` : '<div>👤 <span style="color: #dc3545;">Unclaimed</span></div>'}
+                                <div>📍 <a href="${task.slackUrl}" target="_blank" class="slack-link">View in Slack</a></div>
+                            </div>
+                        </div>
+                    `).join('')}
+                `;
+                container.appendChild(section);
+            });
+        }
+
+        function getPhaseKey(phase) {
+            if (phase === 'Quick Wins') return 'quick';
+            return 'phase' + phase.match(/\d+/)?.[0];
+        }
+
+        function filterPhase(phase) {
+            currentFilter = phase;
+            document.querySelectorAll('.phase-filter button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            renderTasks();
+        }
+
+        // Initial load
+        loadTasks();
+
+        // Auto-refresh every 30 seconds
+        setInterval(loadTasks, 30000);
+    </script>
+</body>
+</html>
