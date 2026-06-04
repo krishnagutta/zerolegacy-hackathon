@@ -1,0 +1,115 @@
+{
+  "id": "careerInsights",
+  "presentation": {
+    "body": {
+      "type": "section",
+      "title": "🎯 Your Career Insights Dashboard",
+      "children": [
+        {
+          "type": "section",
+          "title": "Career Overview",
+          "children": [
+            {
+              "type": "richText",
+              "value": "<h3>Current Role</h3><p><strong>Title:</strong> Vice President, Human Resources<br/><strong>Department:</strong> HR Services (Cost Center 41600)<br/><strong>Location:</strong> San Francisco<br/><strong>Tenure:</strong> 25 years (hired January 1, 2000)</p>"
+            },
+            {
+              "type": "richText",
+              "value": "<h3>📊 Career Readiness Score</h3><p><strong>Target Role:</strong> Chief Human Resources Officer (CHRO)<br/><strong>Readiness:</strong> 76% Ready<br/><strong>Timeline:</strong> 12-18 months with focused executive visibility<br/><strong>Skills to Close:</strong> 3 priority gaps</p>"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "title": "📈 Career Timeline",
+          "children": [
+            {
+              "type": "richText",
+              "value": "<p><strong>25-year progression:</strong></p><ul><li><strong>1995-1997:</strong> Manager, Workforce Planning - Octan Enterprises</li><li><strong>1997-2000:</strong> Director, Human Resources - Nakatomi Holdings</li><li><strong>2000-Present:</strong> Vice President, Human Resources - Global Modern Services (25 years)</li></ul><p>Clear upward progression demonstrating consistent domain depth and leadership growth.</p>"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "title": "🎓 Priority Skill Gaps for CHRO Readiness",
+          "children": [
+            {
+              "type": "richText",
+              "value": "<h3>🔴 HIGH PRIORITY: C-Suite Executive Presence</h3><p><strong>Why:</strong> Critical for CHRO role - presenting to board, external speaking, representing company</p><p><strong>Time to Close:</strong> 6-8 months</p><p>📚 <strong>Learning:</strong> Executive Leadership Program (Workday Learning)<br/>👥 <strong>Shadow:</strong> CFO at board meetings<br/>🎯 <strong>Project:</strong> Lead company-wide culture transformation initiative</p>"
+            },
+            {
+              "type": "richText",
+              "value": "<h3>🟡 MEDIUM PRIORITY: Digital HR Transformation</h3><p><strong>Why:</strong> Modern CHROs drive tech-enabled HR strategies</p><p><strong>Time to Close:</strong> 4-6 months</p><p>📚 <strong>Learning:</strong> HR Tech Trends Course<br/>👥 <strong>Shadow:</strong> Partner with CTO on people systems roadmap<br/>🎯 <strong>Project:</strong> Champion AI-powered talent analytics implementation</p>"
+            },
+            {
+              "type": "richText",
+              "value": "<h3>🟢 LOW PRIORITY: M&A People Integration</h3><p><strong>Why:</strong> Nice-to-have for growth-stage companies</p><p><strong>Time to Close:</strong> 2-3 months</p><p>📚 <strong>Learning:</strong> M&A People Strategy Workshop<br/>👥 <strong>Shadow:</strong> Consult with Corporate Development team<br/>🎯 <strong>Project:</strong> Develop post-acquisition integration playbook</p>"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "title": "🚀 Recommended Internal Opportunities",
+          "children": [
+            {
+              "type": "richText",
+              "value": "<h3>Chief Human Resources Officer - 78% Match</h3><p><strong>Department:</strong> Executive Leadership | <strong>Location:</strong> San Francisco (HQ)</p><p>✅ <strong>Skills Match:</strong> Strategic HR, Talent Development, Change Management<br/>⚠️ <strong>Growth Area:</strong> C-Suite Executive Presence<br/>💡 <strong>Why This Fits:</strong> Natural next step leveraging your 25-year HR leadership track record<br/>📊 <strong>Confidence:</strong> 85%</p>"
+            },
+            {
+              "type": "richText",
+              "value": "<h3>VP, Global Talent & Culture - 92% Match</h3><p><strong>Department:</strong> Human Resources | <strong>Location:</strong> Remote</p><p>✅ <strong>Skills Match:</strong> Talent Development, Organizational Design, Culture Building<br/>⚠️ <strong>Growth Area:</strong> Global HR operations at scale<br/>💡 <strong>Why This Fits:</strong> Lateral move that deepens global expertise before CHRO step<br/>📊 <strong>Confidence:</strong> 90%</p>"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "title": "📊 Similar Career Paths",
+          "children": [
+            {
+              "type": "richText",
+              "value": "<p><strong>3 VPs in your network made similar transitions:</strong></p><ul><li><strong>👤 Maria Chen</strong> (VP HR → CHRO, 14 months)<br/>Key move: Led company-wide DEI transformation, spoke at HR Tech Summit</li><li><strong>👤 David Park</strong> (VP Talent → CHRO, 18 months)<br/>Key move: Implemented AI recruiting platform, published industry whitepaper</li><li><strong>👤 Sarah Johnson</strong> (VP People Ops → CHRO, 16 months)<br/>Key move: Redesigned performance management system, presented at board meeting</li></ul><p>💡 <strong>Common Pattern:</strong> External visibility + innovation projects accelerate CHRO readiness</p>"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "title": "💼 Your Growth Action Plan",
+          "children": [
+            {
+              "type": "richText",
+              "value": "<ol><li><strong>Secure board presentation opportunity</strong> in next 6 months (builds C-Suite presence)</li><li><strong>Publish thought leadership article</strong> on future of HR (external visibility)</li><li><strong>Lead high-visibility transformation project</strong> (demonstrates strategic impact)</li><li><strong>Expand professional network</strong> with 3+ CHRO connections (peer learning)</li><li><strong>Complete Executive Leadership Program</strong> by end of year (formal development)</li></ol>"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "title": "🤝 Take Action",
+          "children": [
+            {
+              "type": "text",
+              "value": "💬 Open Workday Chat and say: \"Show my career insights\" to get personalized AI-powered analysis"
+            },
+            {
+              "type": "text",
+              "value": "🔄 Try: \"What if I want to be a manager?\" to explore alternative career paths"
+            },
+            {
+              "type": "text",
+              "value": "👥 Managers: Say \"Generate talking points for [employee]\" to prepare for career 1:1s"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "title": "ℹ️ Data Sources & Privacy",
+          "children": [
+            {
+              "type": "richText",
+              "value": "<p><em>Based on: Your Workday profile, job history, explicit skills, and internal job postings. All data accessed using your own permissions (delegate mode). This analysis is advisory only - no Workday records are modified.</em></p><p><strong>Last Updated:</strong> June 3, 2026</p>"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
