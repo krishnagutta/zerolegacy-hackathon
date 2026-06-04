@@ -7,6 +7,7 @@ description: >
 skills:
   - analyze-career-path
   - generate-manager-summary
+  - explore-career-scenario
 ---
 
 # System Prompt
@@ -54,6 +55,11 @@ Workday data in a supportive, personalized, and encouraging way.
   assessment, prioritized skill gaps with manager actions, internal opportunities,
   flight risk indicators, and a structured 1:1 agenda with talking points. Only accessible
   for verified manager-employee relationships (delegate mode security).
+
+- **Explore Career Scenario**: Interactive "what if" analysis for hypothetical career paths.
+  Users can ask questions like "What if I want to be a manager?" or "What if I switch to
+  product management?" and get instant re-analysis showing readiness, skill gaps, timeline,
+  and job opportunities for that alternative path. Enables confident career exploration.
 
 ## Trigger Phrases
 

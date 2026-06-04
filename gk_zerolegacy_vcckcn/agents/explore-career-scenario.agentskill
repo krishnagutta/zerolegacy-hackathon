@@ -1,0 +1,227 @@
+---
+name: explore-career-scenario
+description: >
+  Interactive "what if" career scenario exploration. Lets users ask hypothetical
+  questions like "What if I want to be a manager?" or "What if I go IC Staff instead?"
+  and get instant re-analysis with different target roles.
+metadata:
+  tags:
+    - career
+    - scenarios
+    - exploration
+    - what-if
+allowed-tools:
+  - find_staffing_workers
+  - find_talent_profile_worker_job_history
+  - find_worker_explicit_skills
+  - list_staffing_worker_skill_items
+  - find_staffing_job_profile
+  - find_staffing_job_family
+  - list_recruiting_internal_job_postings
+  - generate_a2ui
+tool-wids:
+  - name: find_staffing_workers
+    wid: "30aeb92af72e100063e2955a0eff0000"
+  - name: find_talent_profile_worker_job_history
+    wid: "dde316584c6910002f6a2c4fbac70000"
+  - name: find_worker_explicit_skills
+    wid: "d734f7cb63801000088f78b219f8012c"
+  - name: list_staffing_worker_skill_items
+    wid: "8aa3b2651012100012c44529219a00eb"
+  - name: find_staffing_job_profile
+    wid: "7deab99f645f10000b35a723c5dd0032"
+  - name: find_staffing_job_family
+    wid: "51ed1475e9e6100005ba1fe1d9c00008"
+  - name: list_recruiting_internal_job_postings
+    wid: "3557e59df3cf1000168bed1c1a0a0000"
+  - name: generate_a2ui
+    wid: "generate_a2ui"
+---
+
+# Explore Career Scenario ("What If")
+
+This skill enables interactive career exploration by letting users ask hypothetical
+"what if" questions about different career paths. The agent re-runs career analysis
+with a different target role and shows how their readiness, skill gaps, and timeline
+change.
+
+Activate this skill when users ask:
+- "What if I want to be a manager?"
+- "What if I go IC Staff instead?"
+- "What if I switch to a different department?"
+- "What skills would I need for [role]?"
+- "How ready am I for [specific role]?"
+
+## Steps
+
+### Step 1 — Parse the Scenario Question
+
+Extract the target role or career direction from the user's question:
+
+**Examples:**
+- "What if I want to be a manager?" → Target: Engineering Manager / People Manager
+- "What if I go IC Staff instead?" → Target: Staff Engineer / Principal IC
+- "What if I switch to product management?" → Target: Product Manager
+- "How ready am I for director?" → Target: Director-level role in current function
+
+If the target role is ambiguous, ask clarifying questions:
+- "I see you're interested in [direction]. Did you mean [specific role A] or [specific role B]?"
+
+### Step 2 — Fetch Current Worker Profile
+
+Call `find_staffing_workers` to get current role, job profile, skills.
+
+This gives baseline context for the "what if" comparison.
+
+### Step 3 — Determine Skills for Target Role
+
+**Option A: If target role exists in Workday**
+- Call `find_staffing_job_profile` or `list_recruiting_internal_job_postings` to find real job descriptions for the target role
+- Extract required skills from job profile
+
+**Option B: If target role is generic/hypothetical**
+- Use LLM knowledge to determine typical skills for that role type
+- Example: "Engineering Manager" typically needs: Technical Leadership, People Management, Team Building, Project Management, Strategic Planning
+
+### Step 4 — Calculate Scenario-Specific Readiness
+
+Compare user's current skills against target role requirements:
+
+**Readiness Calculation:**
+- Skills overlap: What % of target role skills does user have?
+- Experience level: Is their tenure appropriate for this role level?
+- Career path fit: How big a leap is this from their current role?
+
+**Output:**
+- Readiness percentage (0-100%)
+- Timeline estimate (months to readiness)
+- Comparison to original career path
+
+### Step 5 — Identify Scenario-Specific Skill Gaps
+
+For the target role, list the top 3-5 skill gaps:
+- Different skills than their original career path
+- Prioritized by criticality for target role
+- Include time-to-close estimates
+
+### Step 6 — Find Jobs Matching the Scenario
+
+Call `list_recruiting_internal_job_postings` filtered to the target role type.
+
+Show 2-3 current openings that match this hypothetical path.
+
+### Step 7 — Present Scenario Comparison
+
+Use `generate_a2ui` or structured text to show:
+
+**Scenario Comparison:**
+- **Original Path**: CHRO (76% ready, 12-18 months)
+- **What-If Path**: VP Global Talent (85% ready, 6-9 months)
+
+**Key Differences:**
+- Readiness: 9% higher for VP Talent path
+- Timeline: 6-9 months faster
+- Skill gaps: More aligned with current strengths
+
+**Skills You'd Need:**
+- [List scenario-specific gaps]
+
+**Jobs Available Now:**
+- [List matching postings]
+
+**Recommendation:**
+- LLM provides a 2-3 sentence recommendation on whether this path makes sense given their career trajectory
+
+### Step 8 — Offer Follow-Up Scenarios
+
+After presenting one scenario, offer related "what if" options:
+
+**Suggested follow-up questions:**
+- "Want to compare this to another role?"
+- "What if you combined both paths?" (e.g., IC Staff → Manager hybrid role)
+- "What if you stayed in your current role but built these skills?"
+
+## Example Interaction
+
+**User:** "What if I want to be a manager instead of CHRO?"
+
+**Agent:**
+```
+🔄 Career Scenario: People Manager Path
+
+Let me analyze what it would look like if you pursued a people management
+track instead of the executive CHRO path...
+
+[Fetches data...]
+
+📊 Scenario Comparison
+
+Your Original Path:
+• Target: Chief Human Resources Officer (CHRO)
+• Readiness: 76% (12-18 months)
+• Key Gap: C-Suite Executive Presence
+
+What-If Path: VP, People & Culture (Manager Track):
+• Readiness: 88% (6-9 months)
+• Timeline: FASTER - you're closer to ready
+• Key Gap: Scaled team management (managing managers)
+
+🎯 Skills You'd Need for Manager Path
+
+1. Managing Managers (HIGH PRIORITY)
+   Why: VP People roles manage 5-10 direct reports who are themselves managers
+   Time to Close: 4-6 months
+   Action: Start managing 2-3 managers now, shadow another VP
+
+2. Team Scaling (MEDIUM)
+   Why: Growing teams from 20 → 50+
+   Time to Close: 3-4 months
+   Action: Lead org design for new department
+
+3. Performance Management at Scale (LOW)
+   Why: Calibration, stack ranking, review cycles for large teams
+   Time to Close: 2-3 months
+   Action: Partner with HRBP on next review cycle
+
+🚀 Jobs Available Now (Manager Path)
+
+1. VP, People & Culture - Global Modern Services (88% match)
+   Why this fits: Leverages your HR depth, faster path than CHRO
+
+2. VP, Talent Development - Tech Division (82% match)
+   Why this fits: Combines people management with your talent expertise
+
+💡 Recommendation
+
+The manager path is a STRONG alternative. You're 12% more ready for VP People
+than CHRO, and it's 6-9 months faster. This could be a strategic "step before
+CHRO" move - build people management scale, then step up to CHRO in 2-3 years.
+
+Want to explore:
+• "What if I pursued both paths simultaneously?"
+• "What if I stayed VP HR and built executive presence first?"
+• "Show me the CHRO path again"
+```
+
+## Behavioral Notes
+
+- Be enthusiastic about exploration - scenarios are meant to be empowering
+- Always compare to their original/default career path for context
+- Provide concrete data (readiness %, timeline) not just qualitative assessment
+- If the scenario seems like a poor fit, say so honestly but constructively
+- Offer 2-3 follow-up scenarios to keep exploration going
+- Never make the user feel locked into one path
+
+## Error Handling
+
+- If target role is too vague: Ask clarifying questions
+- If no jobs exist for target role: Note this but still provide skill gap analysis
+- If target role is a major departure (e.g., HR → Engineering): Acknowledge the
+  significant reskilling required and provide realistic timeline (2+ years)
+- If user has asked 5+ scenarios in one session: Suggest scheduling a career
+  counseling session with manager or HR for deeper exploration
+
+## Data Sources
+
+Uses same MCP tools as analyze-career-path but with different target role context.
+All data accessed in delegate mode.
