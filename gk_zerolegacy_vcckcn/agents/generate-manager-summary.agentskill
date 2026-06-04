@@ -1,0 +1,263 @@
+---
+name: generate-manager-summary
+description: >
+  Generates a manager-ready career discussion summary for a direct report,
+  including career readiness, skill gaps, development recommendations, and
+  suggested 1:1 talking points. Helps managers have more effective career
+  development conversations.
+metadata:
+  tags:
+    - manager
+    - career
+    - development
+    - one-on-one
+allowed-tools:
+  - find_staffing_workers
+  - find_talent_profile_worker_job_history
+  - find_worker_explicit_skills
+  - list_staffing_worker_skill_items
+  - find_performance_review_careers_section
+  - list_worker_organizations
+  - find_worker_service_dates
+  - generate_a2ui
+tool-wids:
+  - name: find_staffing_workers
+    wid: "30aeb92af72e100063e2955a0eff0000"
+  - name: find_talent_profile_worker_job_history
+    wid: "dde316584c6910002f6a2c4fbac70000"
+  - name: find_worker_explicit_skills
+    wid: "d734f7cb63801000088f78b219f8012c"
+  - name: list_staffing_worker_skill_items
+    wid: "8aa3b2651012100012c44529219a00eb"
+  - name: find_performance_review_careers_section
+    wid: "4fa3f3cc5c86100021582d24a6250001"
+  - name: list_worker_organizations
+    wid: "2aabfe83d06610005bd165286b300000"
+  - name: find_worker_service_dates
+    wid: "6b1db753fd82100027d4d4b0f2cd001f"
+  - name: generate_a2ui
+    wid: "generate_a2ui"
+---
+
+# Generate Manager Summary
+
+This skill creates a comprehensive career development summary tailored for managers
+to use in 1:1 conversations with their direct reports. It synthesizes career data
+into actionable talking points, development recommendations, and growth planning
+guidance.
+
+Activate this skill when:
+- User clicks "Generate Manager Talking Points" button
+- User asks "what should I discuss with my direct report about their career"
+- Manager requests career conversation prep for a specific employee
+
+## Steps
+
+### Step 1 — Verify Manager Relationship
+**CRITICAL SECURITY CHECK**
+
+Before proceeding, verify that the authenticated user is authorized to view the
+target employee's career data:
+
+1. Call `find_staffing_workers` for the authenticated user (me)
+2. Extract their worker ID and supervisory status
+3. If requesting summary for another worker, verify manager relationship:
+   - Call `list_worker_organizations` for target employee
+   - Check if authenticated user is listed as their manager
+   - If NOT a manager relationship, STOP and return:
+     "You don't have permission to view career insights for this employee.
+      This feature is only available for your direct reports."
+
+### Step 2 — Gather Direct Report Career Data
+If manager relationship is verified, gather comprehensive career data:
+
+- Call `find_staffing_workers` for the direct report
+- Call `find_talent_profile_worker_job_history` for job progression
+- Call `find_worker_explicit_skills` for documented skills
+- Call `find_worker_service_dates` for tenure analysis
+- Call `find_performance_review_careers_section` for review context
+
+### Step 3 — Analyze Career Development Needs
+Using LLM reasoning, analyze:
+
+**A. Career Readiness Assessment**
+- Current role vs. next logical step
+- Readiness percentage for promotion/next role
+- Key blockers or accelerators
+
+**B. Skill Gap Prioritization**
+- Top 3 skill gaps holding them back
+- Which gaps can be addressed through:
+  * On-the-job projects (manager can assign)
+  * Stretch assignments
+  * Formal learning programs
+  * Cross-functional exposure
+
+**C. Growth Opportunities**
+- Internal roles that fit their trajectory
+- Lateral moves that build breadth
+- Rotational opportunities
+
+**D. Flight Risk Indicators**
+- Tenure pattern (is this a natural transition point?)
+- Career stagnation risk (time in current role vs. typical progression)
+- Engagement signals from performance data
+
+### Step 4 — Generate Manager Talking Points
+Create a structured 1:1 agenda with these sections:
+
+**1. Opening the Conversation**
+- Suggested opening: "I want to talk about your career growth and how I can
+  support you. I've been thinking about your trajectory, and I'd love to hear
+  your perspective first."
+- Key question to ask: "Where do you see yourself in the next 12-18 months?"
+
+**2. Acknowledge Strengths**
+- List 3-4 specific strengths based on job history and performance
+- Frame as: "Here's what I see as your core strengths..."
+
+**3. Discuss Growth Areas**
+- Present skill gaps as development opportunities, not deficiencies
+- Suggested framing: "To get you to [target role], I think building [skill]
+  would be high-impact. What do you think?"
+
+**4. Propose Development Actions**
+For each skill gap, suggest:
+- A specific project you can assign
+- A person they can shadow/learn from
+- A course or program to enroll in
+- Timeline for skill development
+
+**5. Career Path Options**
+- Present 2-3 possible next steps:
+  * Promotion path (if ready)
+  * Lateral move for breadth
+  * Stretch role
+- Ask: "Which of these excites you most?"
+
+**6. Commitments & Follow-Up**
+- What you (manager) commit to doing:
+  * Assign specific development project by [date]
+  * Nominate for [program/opportunity]
+  * Connect them with [mentor/leader]
+- What they commit to:
+  * Complete [learning/certification]
+  * Lead [initiative]
+  * Seek feedback from [stakeholders]
+- Schedule follow-up: "Let's revisit this in 3 months"
+
+### Step 5 — Render Manager Summary Dashboard
+Call `generate_a2ui` with the `managerCareerSummary` page (if available) or
+present as formatted text.
+
+**Summary should include:**
+- Employee name, current role, tenure
+- Career readiness score and target role
+- Top 3 skill gaps with manager actions for each
+- Recommended internal opportunities
+- Flight risk assessment
+- Structured 1:1 talking points
+- Follow-up action items
+
+## Example Output Structure
+
+```
+🤝 Career Development Summary: [Employee Name]
+
+📊 Quick Stats
+- Current Role: Senior Software Engineer
+- Tenure: 3 years 4 months
+- Career Stage: Mid-Career
+- Readiness for Staff Engineer: 72%
+- Flight Risk: Low (engaged, on typical progression timeline)
+
+🎯 Career Goal
+Target Role: Staff Software Engineer
+Timeline: 8-12 months with focused development
+
+⚠️ Top 3 Skill Gaps (Your Action Required)
+
+1. System Design & Architecture (HIGH PRIORITY)
+   Manager Action: Assign as tech lead for Q3 API redesign project
+   Learning: Enroll in Advanced System Design course
+   Mentor: Pair with Sarah Chen (Staff Architect) for design reviews
+   Timeline: 4-6 months
+
+2. Technical Leadership (MEDIUM PRIORITY)
+   Manager Action: Have them lead next sprint planning, mentor 1 junior engineer
+   Learning: Leadership for Engineers workshop
+   Timeline: 3-4 months
+
+3. Cross-Team Communication (LOW PRIORITY)
+   Manager Action: Include in next stakeholder demo, present at eng all-hands
+   Timeline: 2-3 months
+
+🚀 Internal Opportunities
+- Staff Software Engineer, Platform (85% match) - Opens Q4
+- Senior Backend Engineer, Growth (92% match) - Open now
+- Tech Lead, Data Platform (78% match) - Opens Q3
+
+📋 Your 1:1 Agenda
+
+Opening:
+"I want to talk about your career growth. You've been crushing it as a Senior
+Engineer for 3+ years, and I think you're close to ready for Staff. Where do
+you see yourself going?"
+
+Strengths to Acknowledge:
+✅ Strong technical execution - consistently delivers high-quality code
+✅ Reliable team player - takes ownership of critical features
+✅ Growing mentorship - helping onboard new engineers
+
+Development Conversation:
+"To get you to Staff, the main gap I see is system design at scale. The good
+news: I have the perfect project for you. I want you to tech lead the Q3 API
+redesign. This will give you end-to-end ownership of a large-scale system.
+What do you think?"
+
+Actions I'll Take:
+✅ Assign API redesign tech lead role by next week
+✅ Enroll you in Advanced System Design course (3-month program)
+✅ Set up monthly design review sessions with Sarah Chen
+✅ Nominate you for Staff Engineer consideration in Q4 calibration
+
+Actions for Them:
+□ Complete System Design course by end of Q3
+□ Present API redesign proposal at Architecture Review
+□ Mentor one junior engineer through a full project cycle
+
+Follow-Up:
+Schedule 3-month check-in: September 15
+Topics: Project progress, skill development, Staff promotion readiness
+
+---
+
+💡 Manager Tips:
+- Lead with curiosity - ask their career goals before sharing your assessment
+- Frame gaps as "opportunities" not "deficiencies"
+- Be specific about what YOU will do to support them
+- End with clear commitments and timeline
+```
+
+## Behavioral Notes
+
+- Always verify manager relationship before sharing any employee data
+- Use encouraging, growth-oriented language
+- Focus on actionable manager support, not just feedback
+- Balance honesty about gaps with recognition of strengths
+- Provide specific project suggestions the manager can act on immediately
+- Include flight risk assessment but frame constructively
+- Generate commitments for BOTH manager and employee
+- Set a specific follow-up date (default: 3 months)
+
+## Error Handling
+
+- If no manager relationship: Return permission error immediately
+- If limited data available: Note gaps in the summary and proceed with available data
+- If no internal job postings found: Focus on skill development and defer job
+  matching to future conversation
+- If performance review data unavailable: Use job history and tenure as proxies
+
+## Data Sources Note
+All data accessed in delegate mode using the manager's own permissions. Manager
+can only see career insights for their verified direct reports.

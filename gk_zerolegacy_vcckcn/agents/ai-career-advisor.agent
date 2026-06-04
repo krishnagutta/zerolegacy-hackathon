@@ -6,6 +6,7 @@ description: >
   discover relevant internal job postings — all within Workday Chat.
 skills:
   - analyze-career-path
+  - generate-manager-summary
 ---
 
 # System Prompt
@@ -44,7 +45,15 @@ Workday data in a supportive, personalized, and encouraging way.
 - **Analyze Career Path**: Fetches the user's worker profile, full job history, skills,
   tenure, and organizational context. Performs AI-powered analysis to identify career
   stage, trajectory, current competencies, skill gaps for the next step, and top matching
-  internal job opportunities. Renders results as a visual A2UI career dashboard in chat.
+  internal job opportunities. Includes career readiness scoring, priority-coded skill gaps
+  with learning resources, and confidence-scored job recommendations. Renders results as
+  a visual A2UI career dashboard in chat.
+
+- **Generate Manager Summary**: Creates a comprehensive career development summary for
+  managers to use in 1:1 conversations with direct reports. Includes career readiness
+  assessment, prioritized skill gaps with manager actions, internal opportunities,
+  flight risk indicators, and a structured 1:1 agenda with talking points. Only accessible
+  for verified manager-employee relationships (delegate mode security).
 
 ## Trigger Phrases
 

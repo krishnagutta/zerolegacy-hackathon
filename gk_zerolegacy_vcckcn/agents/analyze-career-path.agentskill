@@ -125,12 +125,44 @@ Using all gathered data, perform the following analysis entirely through LLM rea
   (8–15 yrs), Executive/Principal (15+ yrs).
 - Identify the most likely "next step" based on the progression pattern.
 
-**C. Skill Gap Analysis**
+**C. Career Readiness Score (NEW)**
+- Calculate readiness for next role (0-100%)
+  * Current skills overlap with target role: 40% weight
+  * Tenure/experience level appropriate: 30% weight
+  * Recent performance trajectory: 20% weight
+  * Relevant project experience: 10% weight
+- Estimate timeline to readiness (months)
+- Count specific skills needed to close the gap
+
+**D. Skill Gap Analysis with Priority & Resources**
 - For the identified next career step, determine which skills are typically required.
 - Compare against the worker's current skill set.
-- List top 3–5 skill gaps with brief explanations of why each matters.
+- List top 3–5 skill gaps with:
+  * **Priority**: High (critical blocker), Medium (important accelerator), Low (nice-to-have)
+  * **Priority Color**: Red (#fee2e2) for High, Yellow (#fef3c7) for Medium, Green (#d1fae5) for Low
+  * **Explanation**: Why this skill matters for the target role
+  * **Time to Close**: Realistic estimate (e.g., "3-4 months with focused effort")
+  * **Learning Resource**: Specific Workday Learning course or external resource
+  * **Mentor Suggestion**: Name/title of someone to shadow (if available from org data)
+  * **Project Suggestion**: Type of project that would build this skill
 
-**D. Growth Recommendations**
+**E. Similar Career Paths Analysis (NEW)**
+- Identify 2-3 workers who made similar career transitions recently
+- For each, note:
+  * Name and current role
+  * Transition timeline (how long it took)
+  * Key move that enabled the transition (project, skill, certification)
+- Extract common patterns and insights
+
+**F. Enhanced Job Recommendations with Confidence**
+- For each recommended job, provide:
+  * **Skills Match**: Specific skills that overlap (list)
+  * **Growth Area**: One skill gap that this role would help develop
+  * **Why This Fits**: 1-2 sentence explanation of strategic fit
+  * **Confidence Score**: 0-100% based on data completeness and match quality
+  * **Match Explanation**: Data sources used (e.g., "Based on 85% skills overlap from job description")
+
+**G. Growth Recommendations**
 - Suggest 2–3 specific development areas or actions (e.g., seek a leadership
   opportunity, pursue a cross-functional project, develop a specific technical skill).
 
@@ -146,15 +178,98 @@ location, and why it is a good fit.
 
 ### Step 8 — Render Career Insights Dashboard via A2UI
 Call `generate_a2ui` with the `careerInsightsDashboard` PMD page ID and pass the
-analyzed data as query parameters or page context.
+analyzed data as query parameters. The enhanced dashboard should include:
 
-The dashboard should visually present:
-1. **Career Summary** — current role, tenure, career stage.
-2. **Career Timeline** — chronological job history with progression highlighted.
-3. **Skills Map** — current skills grouped by category.
-4. **Skill Gap Highlights** — top skill gaps for next career step.
-5. **Recommended Internal Jobs** — top 3 matching internal postings.
-6. **Growth Actions** — 2–3 actionable development recommendations.
+**Query Parameters to Pass:**
+```javascript
+{
+  // Header Section
+  currentRole: "Vice President, Human Resources",
+  careerStage: "Executive / Principal",
+  tenure: "25 years",
+
+  // Readiness Score Section (NEW)
+  readinessScore: 78,
+  targetRole: "Chief Human Resources Officer",
+  readinessTimeline: "12-18 months with focused leadership visibility",
+  skillsToClose: 3,
+
+  // Current Skills (comma-separated string)
+  currentSkills: "Strategic HR Leadership, Change Management, Talent Development, Organizational Design, Executive Communication, Budget Management, Labor Relations",
+
+  // Skill Gaps Array (NEW - enhanced with priority, resources)
+  skillGapsArray: [
+    {
+      priority: "High",
+      priorityColor: "#fee2e2",
+      gapName: "C-Suite Executive Presence",
+      explanation: "Critical for CHRO role - presenting to board, external speaking",
+      timeToClose: "6-8 months",
+      learningResource: "Executive Leadership Program (Workday Learning)",
+      mentorSuggestion: "Shadow CFO at board meetings",
+      projectSuggestion: "Lead company-wide culture transformation initiative"
+    },
+    {
+      priority: "Medium",
+      priorityColor: "#fef3c7",
+      gapName: "Digital HR Transformation",
+      explanation: "Modern CHROs drive tech-enabled HR strategies",
+      timeToClose: "4-6 months",
+      learningResource: "HR Tech Trends Course",
+      mentorSuggestion: "Partner with CTO on people systems roadmap",
+      projectSuggestion: "Champion AI-powered talent analytics implementation"
+    },
+    {
+      priority: "Low",
+      priorityColor: "#d1fae5",
+      gapName: "M&A People Integration",
+      explanation: "Nice-to-have for growth-stage companies",
+      timeToClose: "2-3 months",
+      learningResource: "M&A People Strategy Workshop",
+      mentorSuggestion: "Consult with Corporate Development team",
+      projectSuggestion: "Develop post-acquisition integration playbook"
+    }
+  ],
+
+  // Recommended Jobs Array (NEW - enhanced with confidence)
+  recommendedJobsArray: [
+    {
+      jobTitle: "Chief Human Resources Officer",
+      department: "Executive Leadership",
+      location: "San Francisco (HQ)",
+      matchPercent: 78,
+      skillsMatch: "Strategic HR, Talent Development, Change Management",
+      growthArea: "C-Suite Executive Presence",
+      whyThisFits: "Natural next step leveraging your 25-year HR leadership track record",
+      confidence: 85,
+      requisitionId: "R-EXEC-001"
+    },
+    {
+      jobTitle: "VP, Global Talent & Culture",
+      department: "Human Resources",
+      location: "Remote",
+      matchPercent: 92,
+      skillsMatch: "Talent Development, Organizational Design, Culture Building",
+      growthArea: "Global HR operations at scale",
+      whyThisFits: "Lateral move that deepens global expertise before CHRO step",
+      confidence: 90,
+      requisitionId: "R-HR-234"
+    }
+  ],
+
+  // Similar Career Paths (NEW)
+  similarPaths: "3 VPs in your network made similar transitions:\\n\\n👤 Maria Chen (VP HR → CHRO, 14 months)\\nKey move: Led company-wide DEI transformation, spoke at HR Tech Summit\\n\\n👤 David Park (VP Talent → CHRO, 18 months)\\nKey move: Implemented AI recruiting platform, published industry whitepaper\\n\\n💡 Pattern: External visibility + innovation projects accelerate CHRO readiness",
+
+  // Career Timeline (keep existing)
+  careerTimeline: "25-year progression from HR Specialist → Manager → Director → VP",
+
+  // Growth Actions (keep existing)
+  growthActions: "1. Secure board presentation opportunity in next 6 months\\n2. Publish thought leadership article on future of HR\\n3. Lead high-visibility transformation project\\n4. Expand professional network with 3+ CHRO connections",
+
+  // Data Sources & Privacy (NEW)
+  lastUpdated: "June 3, 2026, 11:45 PM"
+}
+```
 
 If `generate_a2ui` is unavailable or the PMD page is not found, present the analysis
 as a well-structured text summary with clear sections and bullet points.
