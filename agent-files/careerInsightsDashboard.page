@@ -1,0 +1,216 @@
+{
+  "id": "careerInsightsDashboard",
+  "a2ui": true,
+  "name": "Career Insights Dashboard",
+  "description": "Visual dashboard showing career analysis, skill gaps, and job recommendations",
+  "presentation": {
+    "chatCard": {
+      "chatText": {
+        "value": "🎯 Your Career Insights",
+        "style": {
+          "fontSize": "large",
+          "fontWeight": "bold"
+        }
+      },
+      "chatRow": [
+        {
+          "chatColumn": [
+            {
+              "chatText": {
+                "value": "Current Role",
+                "style": {
+                  "fontWeight": "bold",
+                  "color": "#666"
+                }
+              }
+            },
+            {
+              "chatText": {
+                "valuePath": "/profile/jobTitle",
+                "style": {
+                  "fontSize": "medium"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "chatColumn": [
+            {
+              "chatText": {
+                "value": "Tenure",
+                "style": {
+                  "fontWeight": "bold",
+                  "color": "#666"
+                }
+              }
+            },
+            {
+              "chatText": {
+                "valuePath": "/profile/tenure",
+                "style": {
+                  "fontSize": "medium"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "chatRow": [
+        {
+          "chatText": {
+            "value": "✅ Your Current Skills",
+            "style": {
+              "fontSize": "medium",
+              "fontWeight": "bold",
+              "marginTop": "16px"
+            }
+          }
+        },
+        {
+          "chatLoop": {
+            "valuePath": "/analysis/currentSkills",
+            "chatText": {
+              "value": "• {item}",
+              "style": {
+                "color": "#22c55e"
+              }
+            }
+          }
+        }
+      ],
+      "chatRow": [
+        {
+          "chatText": {
+            "value": "🎓 Skills to Develop for Growth",
+            "style": {
+              "fontSize": "medium",
+              "fontWeight": "bold",
+              "marginTop": "16px"
+            }
+          }
+        },
+        {
+          "chatLoop": {
+            "valuePath": "/analysis/skillGaps",
+            "chatCard": {
+              "style": {
+                "backgroundColor": "#fef3c7",
+                "padding": "12px",
+                "marginBottom": "8px",
+                "borderRadius": "8px"
+              },
+              "chatRow": [
+                {
+                  "chatText": {
+                    "value": "📌 {item.gapName}",
+                    "style": {
+                      "fontWeight": "bold"
+                    }
+                  }
+                },
+                {
+                  "chatText": {
+                    "value": "Why: {item.explanation}",
+                    "style": {
+                      "fontSize": "small",
+                      "color": "#666"
+                    }
+                  }
+                },
+                {
+                  "chatText": {
+                    "value": "💡 {item.resource}",
+                    "style": {
+                      "fontSize": "small",
+                      "color": "#2563eb",
+                      "fontStyle": "italic"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "chatRow": [
+        {
+          "chatText": {
+            "value": "🚀 Recommended Roles for You",
+            "style": {
+              "fontSize": "medium",
+              "fontWeight": "bold",
+              "marginTop": "16px"
+            }
+          }
+        },
+        {
+          "chatLoop": {
+            "valuePath": "/analysis/recommendedRoles",
+            "chatCard": {
+              "style": {
+                "backgroundColor": "#eff6ff",
+                "padding": "12px",
+                "marginBottom": "8px",
+                "borderRadius": "8px"
+              },
+              "chatRow": [
+                {
+                  "chatText": {
+                    "value": "{item.jobTitle} - {item.matchPercent}% match",
+                    "style": {
+                      "fontWeight": "bold",
+                      "fontSize": "medium"
+                    }
+                  }
+                },
+                {
+                  "chatText": {
+                    "value": "{item.department} • {item.location}",
+                    "style": {
+                      "fontSize": "small",
+                      "color": "#666"
+                    }
+                  }
+                },
+                {
+                  "chatButton": {
+                    "label": "View Job Details",
+                    "action": "viewJob",
+                    "value": "{item.requisitionId}",
+                    "style": {
+                      "variant": "secondary",
+                      "size": "small"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "chatRow": [
+        {
+          "chatButton": {
+            "label": "Find More Matching Jobs",
+            "action": "findJobs",
+            "style": {
+              "variant": "primary",
+              "marginTop": "16px"
+            }
+          }
+        },
+        {
+          "chatButton": {
+            "label": "Download Career Plan",
+            "action": "downloadPlan",
+            "style": {
+              "variant": "secondary",
+              "marginTop": "16px"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "ai-career-advisor",
+  "displayName": "Career Insights & Growth Assistant",
+  "description": "AI-powered career development advisor that analyzes employee trajectories, identifies skill gaps, and recommends internal growth opportunities using live Workday data",
+  "version": "1.0.0",
+  "capabilities": [
+    "career_analysis",
+    "skill_gap_identification",
+    "job_recommendations",
+    "development_planning"
+  ],
+  "skills": [
+    "analyze-career-path"
+  ],
+  "delegate_mode": true,
+  "agent_passport_enabled": false,
+  "metadata": {
+    "team": "HackTeam04",
+    "event": "DevCon2026",
+    "created": "2026-06-03"
+  }
+}

@@ -1,0 +1,167 @@
+---
+allowed-tools:
+  - agent_ready_tools
+  - generate_a2ui
+temperature: 0.7
+max_tokens: 2000
+---
+
+# Skill: Analyze Career Path
+
+## When to Use This Skill
+
+Activate this skill when the user asks about:
+- Career insights or career analysis
+- Career growth opportunities or career development
+- Skill gaps or areas for improvement
+- Internal job recommendations or next career steps
+- "show my career insights" or similar phrases
+
+## What This Skill Does
+
+This skill analyzes the user's career trajectory using their Workday data to:
+1. Identify current skills based on job history and roles
+2. Detect skill gaps for career advancement
+3. Recommend internal job opportunities aligned with their growth path
+4. Suggest development actions to close skill gaps
+
+## Steps to Execute
+
+### Step 1: Fetch User's Workday Data
+Use the `getWorkers` MCP tool to retrieve:
+- Current job title and description
+- Employment history (previous roles and dates)
+- Current department and location
+- Manager information
+- Tenure with the company
+
+**Important:** Run this tool with the authenticated user's worker ID to ensure delegate mode (user sees only their own data).
+
+### Step 2: Extract Current Skills
+Analyze the user's job history to identify their current skill set:
+- Review job titles for technical and functional skills
+- Parse job descriptions for mentioned competencies
+- Infer skills from role progression (e.g., "Senior" implies leadership)
+- Consider industry-standard skills for their roles
+
+Output a list of 5-7 current skills with confidence levels.
+
+### Step 3: Identify Skill Gaps
+Determine what skills the user needs for their next career level:
+- Research typical skills for roles one level above their current position
+- Compare current skills against next-level requirements
+- Identify 3-4 high-impact skill gaps that would accelerate growth
+- For each gap, explain WHY it matters for career advancement
+
+### Step 4: Recommend Internal Jobs
+Suggest 3-5 internal positions that match the user's growth trajectory:
+- Prioritize roles that leverage existing skills while addressing gaps
+- Consider lateral moves that build new competencies
+- Include stretch roles if the user shows high potential (tenure + progression)
+- Calculate match percentage based on skills overlap
+
+**Note:** If `searchRequisitions` MCP tool is available, use it to fetch real job postings. If not, recommend role types based on career progression patterns.
+
+### Step 5: Suggest Development Actions
+For each skill gap, recommend specific actions:
+- Workday Learning courses (if available via MCP)
+- Project opportunities or job rotations
+- Mentorship or shadowing suggestions
+- External certifications or training
+
+### Step 6: Render Results in A2UI
+Use the `generate_a2ui` tool to display insights in the CareerInsightsDashboard page with:
+- Current role and tenure summary
+- Visual list of current skills (checkmarks)
+- Skill gaps with explanations (highlighted)
+- Recommended jobs with match percentages
+- Development actions per skill gap
+
+## Data Structure for A2UI
+
+Return data in this format:
+```json
+{
+  "profile": {
+    "jobTitle": "Senior Software Engineer",
+    "tenure": "3 years 2 months",
+    "department": "Engineering",
+    "location": "San Francisco"
+  },
+  "analysis": {
+    "currentSkills": [
+      "Python Development",
+      "API Design",
+      "Database Architecture",
+      "Team Collaboration",
+      "Code Review"
+    ],
+    "skillGaps": [
+      {
+        "gapName": "System Design & Architecture",
+        "explanation": "Critical for Staff Engineer roles - design large-scale distributed systems",
+        "resource": "Workday Learning: Advanced System Design"
+      },
+      {
+        "gapName": "Technical Leadership",
+        "explanation": "Lead technical initiatives across teams, mentor junior engineers",
+        "resource": "Shadow a Staff Engineer for 2 months"
+      },
+      {
+        "gapName": "Cross-Functional Communication",
+        "explanation": "Present technical proposals to non-technical stakeholders",
+        "resource": "Technical Communication Workshop"
+      }
+    ],
+    "recommendedRoles": [
+      {
+        "jobTitle": "Staff Software Engineer",
+        "department": "Platform Engineering",
+        "location": "San Francisco",
+        "matchPercent": 78,
+        "requisitionId": "R-12345"
+      },
+      {
+        "jobTitle": "Senior Backend Engineer (Growth)",
+        "department": "Product Engineering",
+        "location": "Remote",
+        "matchPercent": 85,
+        "requisitionId": "R-12346"
+      },
+      {
+        "jobTitle": "Engineering Manager",
+        "department": "Data Platform",
+        "location": "San Francisco",
+        "matchPercent": 65,
+        "requisitionId": "R-12347"
+      }
+    ]
+  }
+}
+```
+
+## Error Handling
+
+- If `getWorkers` fails: Apologize and ask the user to try again
+- If no job history available: Focus on current role analysis only
+- If skill extraction returns < 3 skills: Acknowledge limited data and suggest manual input
+- If A2UI rendering fails: Return results as formatted text in chat
+
+## Governance & Trust
+
+- Always run in **delegate mode** - use the authenticated user's permissions
+- Never access data for other employees unless user is their manager
+- Log all MCP tool calls for ASOR audit trail
+- Surface data sources in the UI ("Based on your Workday profile data")
+
+## Example Interaction
+
+**User:** "Show me my career insights"
+
+**Agent Response:**
+1. Calls `getWorkers(userId)` → fetches profile
+2. Analyzes job history → extracts skills
+3. Identifies 3 skill gaps for next level
+4. Recommends 3 internal jobs
+5. Renders CareerInsightsDashboard A2UI page with all insights
+6. User sees visual dashboard in Workday Chat with "Find Matching Jobs" button for deeper exploration
