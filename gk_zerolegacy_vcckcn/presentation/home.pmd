@@ -1,0 +1,25 @@
+{
+  "id": "home",
+  "presentation": {
+    "body": {
+      "type": "section",
+      "title": "AI Career Advisor",
+      "children": [
+        {
+          "type": "section",
+          "title": "Welcome to Your AI Career Advisor",
+          "children": [
+            {
+              "type": "text",
+              "value": "Get personalized career insights, skill gap analysis, and internal job recommendations tailored to your growth trajectory."
+            },
+            {
+              "type": "text",
+              "value": "To get started, open Workday Chat and say: \"Analyze my career\" or \"Show my career insights\"."
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

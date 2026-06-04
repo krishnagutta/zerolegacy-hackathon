@@ -1,0 +1,18 @@
+{
+  "appProperties": [
+    {
+      "key": "appName",
+      "value": "AI Career Advisor"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "home",
+      "routingPattern": "/",
+      "page": {
+        "id": "home"
+      }
+    }
+  ],
+  "applicationId": "gk_zerolegacy"
+}

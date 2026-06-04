@@ -1,0 +1,21 @@
+{
+  "id": "gk_zerolegacy",
+  "languages": [
+    {
+      "code": "en-US",
+      "description": "English"
+    }
+  ],
+  "siteAuth": {
+    "authTypes": [
+      {
+        "scheme": "SSO",
+        "id": "sso"
+      }
+    ]
+  },
+  "siteId": "gk_zerolegacy",
+  "cdnEnabled": true,
+  "siteProperties": [ ],
+  "applicationId": "gk_zerolegacy"
+}

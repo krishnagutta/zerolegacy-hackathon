@@ -1,0 +1,113 @@
+{
+  "id": "careerInsightsDashboard",
+  "a2ui": true,
+  "presentation": {
+    "body": {
+      "type": "chatColumn",
+      "children": [
+        {
+          "type": "chatText",
+          "text": "Your Career Insights Dashboard",
+          "variant": "H2"
+        },
+        {
+          "type": "chatDivider"
+        },
+        {
+          "type": "chatText",
+          "text": "Career Summary",
+          "variant": "H2"
+        },
+        {
+          "type": "chatText",
+          "text": "<% queryParams.currentRole %>"
+        },
+        {
+          "type": "chatText",
+          "text": "<% queryParams.careerStage %>"
+        },
+        {
+          "type": "chatText",
+          "text": "<% queryParams.tenure %>"
+        },
+        {
+          "type": "chatDivider"
+        },
+        {
+          "type": "chatText",
+          "text": "Career Timeline",
+          "variant": "H2"
+        },
+        {
+          "type": "chatText",
+          "text": "<% queryParams.careerTimeline %>"
+        },
+        {
+          "type": "chatDivider"
+        },
+        {
+          "type": "chatText",
+          "text": "Current Skills",
+          "variant": "H2"
+        },
+        {
+          "type": "chatText",
+          "text": "<% queryParams.currentSkills %>"
+        },
+        {
+          "type": "chatDivider"
+        },
+        {
+          "type": "chatText",
+          "text": "Skill Gaps for Your Next Step",
+          "variant": "H2"
+        },
+        {
+          "type": "chatText",
+          "text": "<% queryParams.skillGaps %>"
+        },
+        {
+          "type": "chatDivider"
+        },
+        {
+          "type": "chatText",
+          "text": "Recommended Internal Opportunities",
+          "variant": "H2"
+        },
+        {
+          "type": "chatText",
+          "text": "<% queryParams.recommendedJobs %>"
+        },
+        {
+          "type": "chatDivider"
+        },
+        {
+          "type": "chatText",
+          "text": "Your Growth Action Plan",
+          "variant": "H2"
+        },
+        {
+          "type": "chatText",
+          "text": "<% queryParams.growthActions %>"
+        },
+        {
+          "type": "chatDivider"
+        },
+        {
+          "type": "chatButton",
+          "label": "Explore a Specific Role",
+          "action": "exploreRole",
+          "variant": "PRIMARY",
+          "submitDataModel": false
+        },
+        {
+          "type": "chatButton",
+          "label": "View All Internal Jobs",
+          "action": "viewJobs",
+          "variant": "PRIMARY",
+          "submitDataModel": false
+        }
+      ]
+    }
+  }
+}

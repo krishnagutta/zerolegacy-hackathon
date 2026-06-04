@@ -1,0 +1,186 @@
+---
+name: analyze-career-path
+description: >
+  Analyzes the current user's career trajectory by fetching their worker profile,
+  job history, and explicit skills from Workday. Uses LLM reasoning to identify
+  current competencies, detect skill gaps relative to growth targets, and recommends
+  matching internal job postings. Renders a visual career insights dashboard using
+  A2UI in Workday Chat.
+metadata:
+  tags:
+    - career
+    - talent
+    - growth
+    - skills
+allowed-tools:
+  - find_staffing_workers
+  - find_talent_profile_worker_job_history
+  - find_worker_explicit_skills
+  - list_staffing_worker_skill_items
+  - find_staffing_job_profile
+  - find_staffing_job_family
+  - list_recruiting_internal_job_postings
+  - list_worker_organizations
+  - find_worker_service_dates
+  - find_performance_review_careers_section
+  - generate_a2ui
+tool-wids:
+  - name: find_staffing_workers
+    wid: "30aeb92af72e100063e2955a0eff0000"
+  - name: find_talent_profile_worker_job_history
+    wid: "dde316584c6910002f6a2c4fbac70000"
+  - name: find_worker_explicit_skills
+    wid: "d734f7cb63801000088f78b219f8012c"
+  - name: list_staffing_worker_skill_items
+    wid: "8aa3b2651012100012c44529219a00eb"
+  - name: find_staffing_job_profile
+    wid: "7deab99f645f10000b35a723c5dd0032"
+  - name: find_staffing_job_family
+    wid: "51ed1475e9e6100005ba1fe1d9c00008"
+  - name: list_recruiting_internal_job_postings
+    wid: "3557e59df3cf1000168bed1c1a0a0000"
+  - name: list_worker_organizations
+    wid: "2aabfe83d06610005bd165286b300000"
+  - name: find_worker_service_dates
+    wid: "6b1db753fd82100027d4d4b0f2cd001f"
+  - name: find_performance_review_careers_section
+    wid: "4fa3f3cc5c86100021582d24a6250001"
+  - name: generate_a2ui
+    wid: "generate_a2ui"
+---
+
+# Analyze Career Path
+
+This skill analyzes the signed-in user's career trajectory within Workday. It gathers
+their current worker profile, full job history, explicit skills, and organizational
+context, then uses AI reasoning to surface current competencies, detect skill gaps
+for career growth, and recommend matching internal opportunities. Results are
+displayed as a rich A2UI visual dashboard inside Workday Chat.
+
+Activate this skill when the user asks phrases like:
+- "show my career insights"
+- "analyze my career"
+- "career growth opportunities"
+- "what's my career path"
+- "what skills do I need to grow"
+- "recommend jobs for me"
+- "where can I go from here"
+
+## Steps
+
+### Step 1 — Fetch the Current Worker Profile
+Call `find_staffing_workers` with `contextInstanceId` set to `me` to retrieve the
+signed-in worker's current staffing details, including their current job title, job
+profile ID, supervisory organization, and worker ID.
+
+- Extract: `workerId`, `currentJobTitle`, `currentJobProfileId`, `supervisoryOrg`,
+  `businessTitle`, `workerType`.
+
+### Step 2 — Retrieve Job History
+Call `find_talent_profile_worker_job_history` using the worker ID from Step 1 to
+retrieve the worker's job history entries from their talent profile.
+
+- For each job history entry, extract: `jobTitle`, `company`, `startDate`, `endDate`,
+  `jobDescription`.
+- Build a chronological timeline of roles.
+- Identify progression patterns: seniority changes, function changes, management track
+  vs. individual contributor track.
+
+### Step 3 — Retrieve Explicit Skills
+Call `find_worker_explicit_skills` using the worker ID to get explicitly assigned
+skills recorded in Workday.
+
+Also call `list_staffing_worker_skill_items` to retrieve all skill items associated
+with the worker.
+
+- Compile a unified skill list with skill names and any proficiency levels.
+
+### Step 4 — Retrieve Organizational Context
+Call `list_worker_organizations` using the worker ID to understand the worker's
+current organizational placement (department, cost center, company, etc.).
+
+Call `find_worker_service_dates` to determine tenure (original hire date, continuous
+service date).
+
+### Step 5 — Fetch Current Job Profile Details
+Call `find_staffing_job_profile` using the `currentJobProfileId` from Step 1 to
+understand the worker's current role classification, job family, and level.
+
+If a job family ID is available, call `find_staffing_job_family` to understand the
+career family context and typical progression paths.
+
+### Step 6 — AI Analysis (LLM Reasoning — No Tool Call)
+Using all gathered data, perform the following analysis entirely through LLM reasoning:
+
+**A. Current Competency Map**
+- Infer skills from job titles, descriptions, and tenure patterns.
+- Combine inferred skills with explicit Workday skills.
+- Group skills into categories: Technical Skills, Leadership & Management, Domain
+  Expertise, Collaboration & Communication, Process & Operations.
+
+**B. Career Trajectory Assessment**
+- Identify the career arc: Is the worker on a technical track, management track, or
+  generalist/cross-functional track?
+- Estimate career stage: Early Career (0–3 yrs), Mid-Career (3–8 yrs), Senior
+  (8–15 yrs), Executive/Principal (15+ yrs).
+- Identify the most likely "next step" based on the progression pattern.
+
+**C. Skill Gap Analysis**
+- For the identified next career step, determine which skills are typically required.
+- Compare against the worker's current skill set.
+- List top 3–5 skill gaps with brief explanations of why each matters.
+
+**D. Growth Recommendations**
+- Suggest 2–3 specific development areas or actions (e.g., seek a leadership
+  opportunity, pursue a cross-functional project, develop a specific technical skill).
+
+### Step 7 — Fetch Internal Job Postings
+Call `list_recruiting_internal_job_postings` to retrieve available internal job
+postings. Look for postings that align with:
+- The worker's identified next career step.
+- Their current job family and function.
+- The skills they already have plus partial overlap with skill gaps.
+
+Identify the top 3 most relevant internal postings. For each, note the job title,
+location, and why it is a good fit.
+
+### Step 8 — Render Career Insights Dashboard via A2UI
+Call `generate_a2ui` with the `careerInsightsDashboard` PMD page ID and pass the
+analyzed data as query parameters or page context.
+
+The dashboard should visually present:
+1. **Career Summary** — current role, tenure, career stage.
+2. **Career Timeline** — chronological job history with progression highlighted.
+3. **Skills Map** — current skills grouped by category.
+4. **Skill Gap Highlights** — top skill gaps for next career step.
+5. **Recommended Internal Jobs** — top 3 matching internal postings.
+6. **Growth Actions** — 2–3 actionable development recommendations.
+
+If `generate_a2ui` is unavailable or the PMD page is not found, present the analysis
+as a well-structured text summary with clear sections and bullet points.
+
+## Error Handling
+
+- If `find_staffing_workers` returns no results for `me`, inform the user: "I was
+  unable to locate your worker profile. Please ensure you are signed in and have the
+  appropriate access."
+- If job history is empty, proceed with analysis based solely on the current job
+  profile and tenure, and note the limitation.
+- If explicit skills are empty, rely entirely on inferred skills from job titles and
+  descriptions, and note this in the output.
+- If no internal job postings are found, omit the recommendations section and
+  suggest the user check back later or contact HR.
+- If any individual tool call fails, log the failure, skip that data source, and
+  continue with available data. Never halt the entire analysis due to a single
+  data retrieval failure.
+- Always complete the analysis and surface insights, even with partial data.
+
+## Behavioral Notes
+
+- This skill operates in **delegate mode** — it uses only the signed-in user's own
+  permissions. Never attempt to access other workers' data.
+- All analysis is advisory and informational. Do not modify any Workday data.
+- Be encouraging and growth-oriented in tone. Focus on possibilities and actionable
+  next steps.
+- If the user wants to explore a specific career path or job family, ask them for
+  clarification and adjust the analysis accordingly.
